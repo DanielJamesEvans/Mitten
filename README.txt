@@ -1,5 +1,5 @@
 INTRODUCTION:
-The Mitten language is a dynamically typed language.  This code contains an 
+The Mitten language is a simple programming language.  This code contains an 
 interpreter for it.  It is currently a very simple language; I hope to add 
 additional features to it in the future.
 
