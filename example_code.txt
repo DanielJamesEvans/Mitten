@@ -1,0 +1,15 @@
+abcd = 2
+efgh= 7+2
+hijk = 2
+//This is a comment.
+hijk = hijk + 3
+while{abcd < 3}{
+    abcd = abcd + 1
+    lmno = 1
+    while{lmno<5}{
+        lmno = lmno + 2
+        print "lmno is"
+        print lmno
+    }
+}
+pqrs = abcd
