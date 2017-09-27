@@ -1,6 +1,7 @@
 INTRODUCTION:
-The Mitten language is a dynamically typed, interpreted language.  It is currently a very
-simple language; I hope to add additional features to it in the future.
+The Mitten language is a dynamically typed language.  This code contains an 
+interpreter for it.  It is currently a very simple language; I hope to add 
+additional features to it in the future.
 
 USAGE: 
 Compile the code, and change permissions as necessary.  Pass a single file as an argument 
