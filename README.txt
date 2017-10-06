@@ -16,10 +16,7 @@ splits it into tokens and then performs precedence climbing.
 MAJOR LIMITATIONS:
 1) Currently, the interpreter only supports the float data type.  The exception to this is
    that string literals can be printed.
-2) The interpreter does not support parenthesized mathematical expressions.  The
-   tokenizer source code contains support for parentheses; however, I have not implemented
-   parser code allowing parenthesized token lists to be parsed.
-3) The interpreter is not guaranteed to correctly handle all incorrect Mitten code.  Code
+2) The interpreter is not guaranteed to correctly handle all incorrect Mitten code.  Code
    with incorrect syntax may cause the interpreter to crash.
 
 DESCRIPTION OF THE LANGUAGE SYNTAX:
