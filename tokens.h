@@ -7,7 +7,7 @@
 
 
 class token_obj {
-    public:
+public:
     std::string string_val;
     char char_val;
     float float_val;

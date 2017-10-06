@@ -77,20 +77,20 @@ assignment_node find_assignment(string line, node_vectors &vectors) {
     assignment_node new_node;
     new_node.own_address.type = "assignment";
     var_name_node new_name;
-        new_name = find_var_name(line, vectors);
-        if (new_name.correct_node == true) {
-            new_name.own_address.loc = vectors.vars.size();
-            new_name.own_address.type = "var";
-            vectors.vars.push_back(new_name);
-            new_node.addresses.push_back(new_name.own_address);
-        }
-        else {
-            new_node.correct_node = false;
-            cout << "ERROR: No var_name found in line: " << line << endl;
-            exit(1);
-        }
-
-        
+    new_name = find_var_name(line, vectors);
+    if (new_name.correct_node == true) {
+        new_name.own_address.loc = vectors.vars.size();
+        new_name.own_address.type = "var";
+        vectors.vars.push_back(new_name);
+        new_node.addresses.push_back(new_name.own_address);
+    }
+    else {
+        new_node.correct_node = false;
+        cout << "ERROR: No var_name found in line: " << line << endl;
+        exit(1);
+    }
+    
+    
     
     //Parse assignment operator
     int i = 0;
@@ -224,5 +224,5 @@ int main(int argc, char* argv[]) {
     environment en;
     visitor(new_program.own_address, vectors, en);
     map<string, string> environment;
-   return 0;
+    return 0;
 }

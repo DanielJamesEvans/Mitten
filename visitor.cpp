@@ -52,7 +52,7 @@ float visitor(address parent_address, node_vectors vectors, environment &en) {
         float left_val = visitor(left_address, vectors, en);
         float right_val = visitor(right_address, vectors, en);
         string binop = parent_pointer->get_string_val();
-
+        
         if (binop == "+"){
             return left_val + right_val;
         }

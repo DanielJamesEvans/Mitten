@@ -68,7 +68,7 @@ token_obj get_type(string token) {
     }
     if (is_paren) {
         new_token.type = "paren";
-        new_token.char_val = token[0];
+        new_token.string_val = token;
     }
     if (token_is_binop) {
         new_token.type = "binop";
@@ -95,22 +95,24 @@ vector<token_obj> tokenize(string code, bool start, vector<token_obj> &tokens) {
                 start = false;
             }
             //If the char is a + or - used as a unary operator, add it to the token.
-            else if ((next_char == '+' || next_char == '-') && 
-                      i < code.length() - 1 && 
-                      (isdigit(code[i + 1]) || code[i + 1] == '.') && start == true) {
+            else if ((next_char == '+' || next_char == '-') &&
+                     i < code.length() - 1 &&
+                     (isdigit(code[i + 1]) || code[i + 1] == '.') && start == true) {
                 next_token += next_char;
                 start = false;
             }
             else if (next_char == '(' || next_char == ')') {
                 next_token += next_char;
                 token_obj new_paren;
-                new_paren.char_val = next_char;
+                new_paren.string_val = string(1, next_char);
                 new_paren.type = "paren";
                 tokens.push_back(new_paren);
-                next_token = "";
-                start = true;
+                if (next_char == '(') {
+                    start = true;
+                }
                 var = false;
             }
+            //If the char is part of a variable name, add it to the token.
             else if (isalpha(next_char) || (next_char == '_' && var == true)) {
                 next_token += next_char;
                 var = true;
@@ -123,9 +125,9 @@ vector<token_obj> tokenize(string code, bool start, vector<token_obj> &tokens) {
                     binop = true;
                 }
             }
-            //If the char isn't a binary op or parenthesis and the next char can't be 
+            //If the char isn't a binary op or parenthesis and the next char can't be
             //float, end token.  The "" was added because of some weird behavior with " ("
-            if (next_char == '(' || next_char == ')') {
+            if ((next_char == '(' || next_char == ')')) {
                 paren_next = true;
             }
             else {
@@ -157,15 +159,26 @@ vector<token_obj> tokenize(string code, bool start, vector<token_obj> &tokens) {
                         next_token = "";
                         binop = false;
                     }
+                    else if (paren_next == true) {
+                        next_token = "";
+                        paren_next = false;
+                    }
                     else {
                         token_obj new_token_obj;
-                        new_token_obj.float_val = stof(next_token);
-                        new_token_obj.type = "float";
-                        tokens.push_back(new_token_obj);
-                        next_token = "";
-                        var = false;
+                        try {
+                            new_token_obj.float_val = stof(next_token);
+                            new_token_obj.type = "float";
+                            tokens.push_back(new_token_obj);
+                            next_token = "";
+                            var = false;
+                        }
+                        catch (std::invalid_argument) {
+                            cerr << "ERROR: Invalid syntax in token " << next_token <<
+                            " in expression " << code << endl;
+                            exit(1);
+                        }
                     }
-
+                    
                 }
             }
         }
@@ -183,15 +196,24 @@ vector<token_obj> tokenize(string code, bool start, vector<token_obj> &tokens) {
     }
     else {
         token_obj new_token_obj;
-        new_token_obj.float_val = stof(next_token);
-        new_token_obj.type = "float";
-        tokens.push_back(new_token_obj);
-        return tokens;
-
+        if (next_token == ")") {
+            new_token_obj.string_val = next_token;
+            new_token_obj.type = "paren";
+            tokens.push_back(new_token_obj);
+            return tokens;
+        }
+        //If token isn't ")" and var != true, token should be a float.
+        try {
+            new_token_obj.float_val = stof(next_token);
+            new_token_obj.type = "float";
+            tokens.push_back(new_token_obj);
+            return tokens;
+        }
+        catch (std::invalid_argument) {
+            cerr << "ERROR: Invalid syntax in token " << next_token <<
+            " in expression " << code << endl;
+            exit(1);
+        }
+        
     }
-    //fixme: what does this error catching do???
-    cout << "no" << endl;
-    token_obj new_token_obj = get_type(next_token);
-    tokens.push_back(new_token_obj);
-    return tokens;
 }

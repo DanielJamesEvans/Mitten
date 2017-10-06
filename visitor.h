@@ -24,11 +24,11 @@ public:
         else {
             floats[var_name] = var_val;
             return;
-
+            
         }
     }
     
-    int get_val(std::string var_name) {
+    float get_val(std::string var_name) {
         if (types.find(var_name) == types.end()) {
             std::cout << "ERROR: var_name " << var_name << " doesn't exist!";
             exit(1);
@@ -41,7 +41,7 @@ public:
             return floats[var_name];
         }
     }
-
+    
     std::string get_type(std::string var_name) {
         if (types.find(var_name) == types.end()) {
             std::cout << "ERROR: var_name " << var_name << " doesn't exist!";
